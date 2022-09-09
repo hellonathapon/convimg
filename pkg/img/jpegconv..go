@@ -7,15 +7,22 @@ import (
 	"image/color"
 	"image/draw"
 	"image/jpeg"
+	"image/png"
 	"os"
 )
 
-func Jpegconv(pngSrc image.Image) error {
+func Jpegconv(pngFile *os.File, bgcol color.Color, pathname string) error {
+
+	pngSrc, err := png.Decode(pngFile)
+
+	if err != nil {
+		return errors.New("Unable to decode PNG file")
+	}
 	//* create new bacnkground data
 	bg := image.NewRGBA(pngSrc.Bounds())
 
 	//* draw color to bg
-	draw.Draw(bg, bg.Bounds(), &image.Uniform{color.White}, image.Point{}, draw.Src)
+	draw.Draw(bg, bg.Bounds(), &image.Uniform{bgcol}, image.Point{}, draw.Src)
 
 	//* place png data on top of bg data to create an new JPEG image
 	draw.Draw(bg, bg.Bounds(), pngSrc, pngSrc.Bounds().Min, draw.Over)
@@ -23,7 +30,9 @@ func Jpegconv(pngSrc image.Image) error {
 	//* create new JPEG file
 	// dt := time.Now()
 	// fmt.Sprintf("%v", dt.Format())
-	jpegFile, err := os.Create("./myJPEG.jpg")
+	expPath := fmt.Sprintf("%v.jpg", pathname)
+	// expPath := fmt.Sprintf("./%v", name)
+	jpegFile, err := os.Create(expPath)
 
 	if err != nil {
 		return errors.New("Unable to create JPEG file")
