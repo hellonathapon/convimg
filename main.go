@@ -18,7 +18,7 @@ func main() {
 
 	defer pngFile.Close()
 
-	err = img.Jpegconv(pngFile, color.White, "./pkg/converted-image")
+	err = img.Jpegconv(pngFile, color.White, "./temp/converted-image")
 
 	if err != nil {
 		log.Println("Error to convert JPEG")

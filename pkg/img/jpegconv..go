@@ -29,7 +29,9 @@ func Jpegconv(pngFile *os.File, bgcol color.Color, pathname string) error {
 
 	//* create new JPEG file
 	// dt := time.Now()
-	// fmt.Sprintf("%v", dt.Format())
+	// str := fmt.Sprintf("%s", dt)
+	// slc := strings.Split(str, " ")
+	// name := slc[1]
 	expPath := fmt.Sprintf("%v.jpg", pathname)
 	// expPath := fmt.Sprintf("./%v", name)
 	jpegFile, err := os.Create(expPath)
